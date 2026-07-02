@@ -49,6 +49,17 @@
             <h2 id="dailyTitle">Today's 7-minute session</h2>
             <p id="dailyMessage">A tiny win keeps Spanish warm in your head.</p>
           </div>
+          <label class="pack-picker" for="packSelect">
+            Pack
+            <select id="packSelect">
+              <option value="core">Daily core</option>
+              <option value="cafe">Coffee shop</option>
+              <option value="work">Work help</option>
+              <option value="errands">Errands</option>
+              <option value="plans">Making plans</option>
+              <option value="slang">Colombian slang</option>
+            </select>
+          </label>
           <div class="xp-track" aria-label="Daily XP progress">
             <div class="xp-bar"><span id="xpBar"></span></div>
             <small id="xpGoalText">0 / 40 XP</small>
@@ -102,6 +113,22 @@
             <button class="primary" id="knownButton" type="button" disabled>Got it</button>
             <button class="secondary" id="saveCard" type="button">Save</button>
           </div>
+          <section class="insight-panel" aria-label="Progress insights">
+            <div>
+              <p class="section-kicker">Weekly recap</p>
+              <h2 id="weeklyTitle">This week</h2>
+              <p id="weeklyRecap"></p>
+            </div>
+            <div>
+              <p class="section-kicker">Unlocks</p>
+              <div class="unlock-list" id="unlockList"></div>
+            </div>
+            <div class="backup-tools">
+              <button class="secondary compact" id="exportProgress" type="button">Export</button>
+              <button class="secondary compact" id="importProgress" type="button">Import</button>
+              <input id="importFile" type="file" accept="application/json" hidden>
+            </div>
+          </section>
           <section class="word-bank-panel" aria-label="Personal word bank">
             <div class="section-head compact-head">
               <div>
@@ -170,6 +197,7 @@
               <select id="gameMode" aria-label="Game mode">
                 <option value="build">Build</option>
                 <option value="reply">Reply</option>
+                <option value="situation">Situation</option>
                 <option value="tone">Slang or formal</option>
                 <option value="speed">Fast recall</option>
               </select>

@@ -1,4 +1,4 @@
-const cacheName = "vive-spanish-v5";
+const cacheName = "vive-spanish-v6";
 const assets = [
   "./",
   "./index.html",

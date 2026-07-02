@@ -11,6 +11,7 @@ A phone-first Latin American Spanish practice app with a Colombian flavor.
 - Daily immersion missions
 - Local journal and streak tracking
 - Slang deck with usage notes for casual or careful phrases
+- Conversation packs, weekly recap, unlocks, and progress export/import
 
 ## Phone-First Use
 

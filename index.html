@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#176c72">
+    <title>Vive Spanish</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <img class="hero-image" src="assets/colombian-study-cafe.png" alt="">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div>
+            <p class="eyebrow">Latin America Spanish</p>
+            <h1>Vive Spanish</h1>
+          </div>
+          <button class="icon-button" id="installButton" type="button" title="Install app" aria-label="Install app" hidden>
+            <span aria-hidden="true">+</span>
+          </button>
+        </div>
+        <section class="today-strip" aria-label="Today's practice status">
+          <div>
+            <span id="streakCount">0</span>
+            <small>day streak</small>
+          </div>
+          <div>
+            <span id="dueCount">0</span>
+            <small>due cards</small>
+          </div>
+          <div>
+            <span id="knownCount">0</span>
+            <small>known</small>
+          </div>
+        </section>
+      </header>
+
+      <main>
+        <nav class="tabs" aria-label="Practice modes">
+          <button class="tab is-active" type="button" data-view="review">Review</button>
+          <button class="tab" type="button" data-view="listen">Listen</button>
+          <button class="tab" type="button" data-view="speak">Speak</button>
+          <button class="tab" type="button" data-view="play">Play</button>
+          <button class="tab" type="button" data-view="live">Live</button>
+        </nav>
+
+        <section class="view is-active" id="review" aria-labelledby="reviewTitle">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Spaced recall</p>
+              <h2 id="reviewTitle">Today's cards</h2>
+            </div>
+            <select id="deckFilter" aria-label="Deck filter">
+              <option value="all">All decks</option>
+              <option value="colombia">Colombia</option>
+              <option value="daily">Daily life</option>
+              <option value="work">Work and errands</option>
+              <option value="connectors">Connectors</option>
+              <option value="slang">Slang</option>
+            </select>
+          </div>
+
+          <article class="flashcard" id="flashcard">
+            <div class="card-topline">
+              <span id="cardLevel">A2</span>
+              <span id="cardDeck">Daily life</span>
+            </div>
+            <button class="sound-button" id="cardSound" type="button" title="Hear Spanish" aria-label="Hear Spanish">
+              <span aria-hidden="true">♪</span>
+            </button>
+            <p class="prompt-label" id="promptLabel">Say this in Spanish</p>
+            <h3 id="cardPrompt">Loading...</h3>
+            <p class="answer" id="cardAnswer" hidden></p>
+            <p class="note" id="cardNote"></p>
+          </article>
+
+          <div class="action-row">
+            <button class="secondary" id="showAnswer" type="button">Show</button>
+            <button class="danger" id="againButton" type="button" disabled>Again</button>
+            <button class="secondary" id="hardButton" type="button" disabled>Hard</button>
+            <button class="primary" id="knownButton" type="button" disabled>Got it</button>
+          </div>
+        </section>
+
+        <section class="view" id="listen" aria-labelledby="listenTitle">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Comprehensible input</p>
+              <h2 id="listenTitle">Mini scenes</h2>
+            </div>
+            <button class="primary compact" id="newScene" type="button">New</button>
+          </div>
+          <article class="scene">
+            <div class="scene-controls">
+              <button class="sound-button large" id="sceneSound" type="button" title="Play scene" aria-label="Play scene">
+                <span aria-hidden="true">♪</span>
+              </button>
+              <label>
+                Speed
+                <input id="rateSlider" type="range" min="0.65" max="1" value="0.82" step="0.01">
+              </label>
+            </div>
+            <p class="spanish-text" id="sceneSpanish"></p>
+            <p class="translation" id="sceneEnglish"></p>
+            <div class="chips" id="sceneChips" aria-label="Scene vocabulary"></div>
+          </article>
+        </section>
+
+        <section class="view" id="speak" aria-labelledby="speakTitle">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Out loud</p>
+              <h2 id="speakTitle">Shadow and answer</h2>
+            </div>
+            <button class="primary compact" id="newSpeak" type="button">New</button>
+          </div>
+          <article class="speak-panel">
+            <p class="prompt-label">Answer this</p>
+            <h3 id="speakPrompt"></h3>
+            <p class="target" id="speakTarget"></p>
+            <div class="action-row">
+              <button class="secondary" id="hearSpeakTarget" type="button">Hear</button>
+              <button class="primary" id="recordButton" type="button">Record</button>
+              <button class="secondary" id="shadowDone" type="button">I said it</button>
+            </div>
+            <p class="transcript" id="transcript">Your transcript will appear here.</p>
+            <p class="note" id="speechSupport"></p>
+          </article>
+        </section>
+
+        <section class="view" id="play" aria-labelledby="playTitle">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Phrase builder</p>
+              <h2 id="playTitle">Put it together</h2>
+            </div>
+            <button class="primary compact" id="newPuzzle" type="button">New</button>
+          </div>
+          <article class="game-panel">
+            <p class="prompt-label">Build the Spanish sentence</p>
+            <h3 id="puzzleEnglish"></h3>
+            <div class="drop-zone" id="dropZone" aria-label="Built sentence"></div>
+            <div class="word-bank" id="wordBank" aria-label="Word bank"></div>
+            <div class="action-row">
+              <button class="secondary" id="clearPuzzle" type="button">Clear</button>
+              <button class="primary" id="checkPuzzle" type="button">Check</button>
+            </div>
+            <p class="note" id="puzzleFeedback"></p>
+          </article>
+        </section>
+
+        <section class="view" id="live" aria-labelledby="liveTitle">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Immersion</p>
+              <h2 id="liveTitle">Live in it</h2>
+            </div>
+            <button class="primary compact" id="resetDay" type="button">Reset</button>
+          </div>
+          <div class="mission-list" id="missionList"></div>
+          <form class="journal" id="journalForm">
+            <label for="journalEntry">One sentence from today</label>
+            <textarea id="journalEntry" rows="4" placeholder="Hoy necesito practicar porque..."></textarea>
+            <button class="primary" type="submit">Save sentence</button>
+          </form>
+          <div class="journal-log" id="journalLog"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

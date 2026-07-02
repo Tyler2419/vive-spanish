@@ -1,0 +1,23 @@
+{
+  "name": "Vive Spanish",
+  "short_name": "Vive Spanish",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fbf7ef",
+  "theme_color": "#176c72",
+  "description": "A mobile-first Latin American Spanish practice app.",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

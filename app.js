@@ -1,276 +1,202 @@
-const storageKey = "vive-spanish-state-v1";
+const storageKey = "vive-spanish-state-v2";
 
 const cards = [
-  {
-    id: "c1",
-    level: "A2",
-    deck: "colombia",
-    prompt: "How are you doing? / What's up?",
-    answer: "¿Qué más?",
-    note: "Very Colombian. Casual greeting, not a literal question about more things."
-  },
-  {
-    id: "c2",
-    level: "A2",
-    deck: "daily",
-    prompt: "I need to run an errand.",
-    answer: "Necesito hacer una vuelta.",
-    note: "In Colombia, una vuelta can mean an errand or quick task."
-  },
-  {
-    id: "c3",
-    level: "A2",
-    deck: "work",
-    prompt: "Can you help me with this?",
-    answer: "¿Me puedes ayudar con esto?",
-    note: "Useful everywhere in Latin America."
-  },
-  {
-    id: "c4",
-    level: "B1",
-    deck: "connectors",
-    prompt: "Even though it is raining, I am going out.",
-    answer: "Aunque está lloviendo, voy a salir.",
-    note: "Aunque is a high-value connector for longer sentences."
-  },
-  {
-    id: "c5",
-    level: "A2",
-    deck: "daily",
-    prompt: "I am getting used to speaking more.",
-    answer: "Me estoy acostumbrando a hablar más.",
-    note: "Use acostumbrarse a plus infinitive."
-  },
-  {
-    id: "c6",
-    level: "B1",
-    deck: "colombia",
-    prompt: "That place is really cool.",
-    answer: "Ese lugar es muy bacano.",
-    note: "Bacano is common in Colombia for cool or nice."
-  },
-  {
-    id: "c7",
-    level: "B1",
-    deck: "work",
-    prompt: "I realized that I made a mistake.",
-    answer: "Me di cuenta de que cometí un error.",
-    note: "Darse cuenta de que is the pattern."
-  },
-  {
-    id: "c8",
-    level: "B1",
-    deck: "connectors",
-    prompt: "The problem is that we do not have enough time.",
-    answer: "El problema es que no tenemos suficiente tiempo.",
-    note: "A clean structure for explaining constraints."
-  },
-  {
-    id: "c9",
-    level: "A2",
-    deck: "colombia",
-    prompt: "Please give me a little bit.",
-    answer: "Regálame un poquito, por favor.",
-    note: "In Colombian service contexts, regalar can soften a request."
-  },
-  {
-    id: "c10",
-    level: "B1",
-    deck: "daily",
-    prompt: "I have been trying to listen every day.",
-    answer: "He estado tratando de escuchar todos los días.",
-    note: "He estado plus gerund is useful for recent ongoing effort."
-  },
-  {
-    id: "c11",
-    level: "B1",
-    deck: "connectors",
-    prompt: "Instead of translating, try to describe it.",
-    answer: "En vez de traducir, intenta describirlo.",
-    note: "A helpful habit for living in the language."
-  },
-  {
-    id: "c12",
-    level: "A2",
-    deck: "work",
-    prompt: "I will check it and let you know.",
-    answer: "Lo reviso y te aviso.",
-    note: "Natural, compact Latin American phrasing."
-  },
-  {
-    id: "s1",
-    level: "Slang",
-    deck: "slang",
-    prompt: "Friend / buddy / bro",
-    answer: "Parce / parcero",
-    note: "Very Colombian and casual. Good to recognize; use with friends, not formal settings."
-  },
-  {
-    id: "s2",
-    level: "Slang",
-    deck: "slang",
-    prompt: "Cool / awesome",
-    answer: "Chévere / bacano",
-    note: "Both are common. Chévere is broadly safe; bacano feels especially Colombian in many regions."
-  },
-  {
-    id: "s3",
-    level: "Slang",
-    deck: "slang",
-    prompt: "Sounds good / I'm in / right away",
-    answer: "De una",
-    note: "Very useful Colombian phrase. Context decides whether it means agreement or immediacy."
-  },
-  {
-    id: "s4",
-    level: "Slang",
-    deck: "slang",
-    prompt: "Money / cash",
-    answer: "Plata",
-    note: "Common across Latin America and very normal in Colombia. More casual than dinero."
-  },
-  {
-    id: "s5",
-    level: "Careful",
-    deck: "slang",
-    prompt: "That is really cool / amazing",
-    answer: "Qué chimba",
-    note: "Common in Colombia, especially casually, but can be vulgar depending on context and audience."
-  },
-  {
-    id: "s6",
-    level: "Careful",
-    deck: "slang",
-    prompt: "What a hassle / what a shame / what a thing",
-    answer: "Qué vaina",
-    note: "Useful expression, but tone matters. It can be complaint, sympathy, or annoyance."
-  },
-  {
-    id: "s7",
-    level: "Slang",
-    deck: "slang",
-    prompt: "Angry / upset",
-    answer: "Bravo / brava",
-    note: "In Colombia, estar bravo can mean being angry, not brave."
-  },
-  {
-    id: "s8",
-    level: "Slang",
-    deck: "slang",
-    prompt: "To hang out / chat someone up",
-    answer: "Parchear / charlar",
-    note: "Parchear is casual hanging out. Charlar is safer and more general."
-  },
-  {
-    id: "s9",
-    level: "Slang",
-    deck: "slang",
-    prompt: "A hangout plan / friend group",
-    answer: "Un parche",
-    note: "Casual Colombian usage. Also can mean a patch in other contexts."
-  },
-  {
-    id: "s10",
-    level: "Careful",
-    deck: "slang",
-    prompt: "Dude / guy / girl",
-    answer: "Man / vieja",
-    note: "Casual. Vieja can be friendly or rude depending on relationship and tone."
-  }
-];
+  ["c1", "A2", "colombia", "How are you doing? / What's up?", "¿Qué más?", "Very Colombian. Casual greeting, not a literal question about more things."],
+  ["c2", "A2", "daily", "I need to run an errand.", "Necesito hacer una vuelta.", "In Colombia, una vuelta can mean an errand or quick task."],
+  ["c3", "A2", "work", "Can you help me with this?", "¿Me puedes ayudar con esto?", "Useful everywhere in Latin America."],
+  ["c4", "B1", "connectors", "Even though it is raining, I am going out.", "Aunque está lloviendo, voy a salir.", "Aunque is a high-value connector for longer sentences."],
+  ["c5", "A2", "daily", "I am getting used to speaking more.", "Me estoy acostumbrando a hablar más.", "Use acostumbrarse a plus infinitive."],
+  ["c6", "B1", "colombia", "That place is really cool.", "Ese lugar es muy bacano.", "Bacano is common in Colombia for cool or nice."],
+  ["c7", "B1", "work", "I realized that I made a mistake.", "Me di cuenta de que cometí un error.", "Darse cuenta de que is the pattern."],
+  ["c8", "B1", "connectors", "The problem is that we do not have enough time.", "El problema es que no tenemos suficiente tiempo.", "A clean structure for explaining constraints."],
+  ["c9", "A2", "colombia", "Please give me a little bit.", "Regálame un poquito, por favor.", "In Colombian service contexts, regalar can soften a request."],
+  ["c10", "B1", "daily", "I have been trying to listen every day.", "He estado tratando de escuchar todos los días.", "He estado plus gerund is useful for recent ongoing effort."],
+  ["c11", "B1", "connectors", "Instead of translating, try to describe it.", "En vez de traducir, intenta describirlo.", "A helpful habit for living in the language."],
+  ["c12", "A2", "work", "I will check it and let you know.", "Lo reviso y te aviso.", "Natural, compact Latin American phrasing."],
+  ["c13", "A2", "daily", "I am going to grab something to eat.", "Voy a comer algo rápido.", "A natural everyday phrase; rápido can mean quick or casual here."],
+  ["c14", "B1", "connectors", "That depends on what happens tomorrow.", "Eso depende de lo que pase mañana.", "A useful way to avoid yes/no answers."],
+  ["c15", "A2", "daily", "I am looking for my keys.", "Estoy buscando mis llaves.", "Buscar does not need por when it means look for."],
+  ["c16", "B1", "work", "I will send it to you when I finish.", "Te lo mando cuando termine.", "Compact and natural for work texts."],
+  ["c17", "A2", "colombia", "Do you want a black coffee?", "¿Quieres un tinto?", "In Colombia, tinto is black coffee, not red wine."],
+  ["c18", "B1", "daily", "I have not had time yet.", "Todavía no he tenido tiempo.", "Todavía no is extremely useful."],
+  ["c19", "B1", "connectors", "Besides that, everything is fine.", "Aparte de eso, todo está bien.", "Good connector for updates."],
+  ["c20", "A2", "work", "Can you repeat the address?", "¿Puedes repetir la dirección?", "Good practical phrase for calls, routes, and errands."],
+  ["c21", "A2", "daily", "I forgot how to say it.", "Se me olvidó cómo decirlo.", "Se me olvidó is a natural way to say I forgot."],
+  ["c22", "B1", "connectors", "I am not sure, but I think so.", "No estoy seguro, pero creo que sí.", "Very useful when speaking honestly."],
+  ["c23", "B1", "daily", "I am trying not to translate everything.", "Estoy tratando de no traducir todo.", "This is a good language-learning sentence to own."],
+  ["c24", "A2", "colombia", "Do you want to hang out for a while?", "¿Quieres parchar un rato?", "Casual Colombian phrasing. Use with friends."],
+  ["c25", "B1", "work", "Let me check before I answer.", "Déjame revisar antes de responder.", "Polite and useful when you need a second."],
+  ["c26", "A2", "daily", "I need to practice more often.", "Necesito practicar más seguido.", "Más seguido is common for more often."],
+  ["c27", "B1", "connectors", "What I mean is...", "Lo que quiero decir es...", "A rescue phrase for explaining yourself."],
+  ["c28", "A2", "daily", "I am on my way.", "Ya voy en camino.", "Ya gives it a natural immediacy."],
+  ["c29", "B1", "work", "Could you send me a photo?", "¿Me podrías mandar una foto?", "Podrías softens the request."],
+  ["c30", "A2", "colombia", "That is very far.", "Eso queda muy lejos.", "Quedar is common for location."],
+  ["s1", "Slang", "slang", "Friend / buddy / bro", "Parce / parcero", "Very Colombian and casual. Good to recognize; use with friends, not formal settings."],
+  ["s2", "Slang", "slang", "Cool / awesome", "Chévere / bacano", "Chévere is broadly safe; bacano feels especially Colombian."],
+  ["s3", "Slang", "slang", "Sounds good / I'm in / right away", "De una", "Very useful Colombian phrase. Context decides whether it means agreement or immediacy."],
+  ["s4", "Slang", "slang", "Money / cash", "Plata", "Common across Latin America and very normal in Colombia. More casual than dinero."],
+  ["s5", "Careful", "slang", "That is really cool / amazing", "Qué chimba", "Common in Colombia, especially casually, but can be vulgar depending on context and audience."],
+  ["s6", "Careful", "slang", "What a hassle / what a shame / what a thing", "Qué vaina", "Useful expression, but tone matters. It can be complaint, sympathy, or annoyance."],
+  ["s7", "Slang", "slang", "Angry / upset", "Bravo / brava", "In Colombia, estar bravo can mean being angry, not brave."],
+  ["s8", "Slang", "slang", "To hang out", "Parchear", "Casual Colombian word for hanging out."],
+  ["s9", "Slang", "slang", "A hangout plan / friend group", "Un parche", "Casual Colombian usage. Also can mean a patch in other contexts."],
+  ["s10", "Careful", "slang", "Dude / guy / girl", "Man / vieja", "Casual. Vieja can be friendly or rude depending on relationship and tone."],
+  ["s11", "Slang", "slang", "A little favor", "Un favorcito", "Softens a request; common and friendly."],
+  ["s12", "Slang", "slang", "A lot / very", "Un montón", "Common and safe."],
+  ["s13", "Careful", "slang", "To be broke", "Estar llevado", "Colombian casual phrase. Understand before using broadly."],
+  ["s14", "Slang", "slang", "A snack / small bite", "Mecato", "Common in parts of Colombia; regional."],
+  ["s15", "Careful", "slang", "Annoying / intense person", "Cansón / cansona", "Useful but can sound critical."],
+  ["s16", "Slang", "slang", "Embarrassing / awkward", "Qué pena", "Also used as excuse me or sorry in Colombia."],
+  ["s17", "Slang", "slang", "No problem / relaxed", "Fresco / fresca", "Very common in Colombia for reassuring someone."],
+  ["s18", "Slang", "slang", "To work hard / hustle", "Camellar", "Casual Colombian verb for working."],
+  ["s19", "Careful", "slang", "A mess / chaos", "Un desorden", "Safe word; less slangy than stronger alternatives."],
+  ["s20", "Slang", "slang", "Let's do it / let's go", "Hágale", "Very Colombian. Tone can mean go ahead, do it, or let's go."]
+].map(([id, level, deck, prompt, answer, note]) => ({ id, level, deck, prompt, answer, note }));
 
 const scenes = [
   {
+    title: "Coffee in Medellín",
     es: "Estoy en una cafetería en Medellín. Pido un tinto y le pregunto al mesero si hay algo para comer. Él me recomienda una arepa con queso.",
     en: "I am in a cafe in Medellin. I order a black coffee and ask the waiter if there is something to eat. He recommends an arepa with cheese.",
     chips: ["tinto", "mesero", "recomendar", "arepa"]
   },
   {
+    title: "Errands day",
     es: "Hoy tengo varias vueltas. Primero paso por la tienda, después llamo a un cliente y más tarde practico español mientras camino.",
     en: "Today I have several errands. First I stop by the store, then I call a customer, and later I practice Spanish while I walk.",
     chips: ["vueltas", "pasar por", "mientras", "más tarde"]
   },
   {
+    title: "Learning goal",
     es: "Mi meta no es hablar perfecto. Mi meta es entender más, responder más rápido y sentirme cómodo usando frases nuevas.",
     en: "My goal is not to speak perfectly. My goal is to understand more, answer faster, and feel comfortable using new phrases.",
     chips: ["meta", "perfecto", "rápido", "cómodo"]
   },
   {
+    title: "Making plans",
     es: "Un amigo me dice: parce, ¿vamos por un café? Yo respondo: de una. Ese plan suena muy bacano.",
     en: "A friend says: buddy, should we go for coffee? I answer: sounds good. That plan sounds really cool.",
     chips: ["parce", "de una", "bacano", "plan"]
   },
   {
+    title: "Slang radar",
     es: "Escucho una palabra nueva en la calle. Primero trato de entender el tono: ¿es amable, informal o demasiado fuerte?",
     en: "I hear a new word on the street. First I try to understand the tone: is it friendly, informal, or too strong?",
     chips: ["calle", "tono", "informal", "fuerte"]
+  },
+  {
+    title: "At work",
+    es: "Antes de responder, reviso los detalles. Si no entiendo algo, pregunto: ¿me puedes explicar eso de otra manera?",
+    en: "Before answering, I check the details. If I do not understand something, I ask: can you explain that another way?",
+    chips: ["antes", "detalles", "explicar", "otra manera"]
+  },
+  {
+    title: "On the road",
+    es: "Voy manejando y escucho una historia corta en español. No entiendo todo, pero reconozco palabras y sigo el contexto.",
+    en: "I am driving and listening to a short story in Spanish. I do not understand everything, but I recognize words and follow the context.",
+    chips: ["manejando", "historia", "reconozco", "contexto"]
+  },
+  {
+    title: "Ordering food",
+    es: "Quiero pedir algo sencillo. Digo: regálame una arepa y un tinto, por favor. Después pregunto cuánto cuesta.",
+    en: "I want to order something simple. I say: please give me an arepa and a black coffee. Then I ask how much it costs.",
+    chips: ["pedir", "sencillo", "regálame", "cuánto cuesta"]
   }
 ];
 
 const speakPrompts = [
+  ["Tell a friend you are learning Spanish because you want to use it every day.", "Estoy aprendiendo español porque quiero usarlo todos los días."],
+  ["Ask someone if they can repeat it more slowly.", "¿Puedes repetirlo más despacio?"],
+  ["Say that you understood the main idea, but not every word.", "Entendí la idea principal, pero no todas las palabras."],
+  ["Say that you are going to practice for ten minutes.", "Voy a practicar durante diez minutos."],
+  ["Say you are not sure, but you can try.", "No estoy seguro, pero puedo intentarlo."],
+  ["Ask a friend if they want to get coffee.", "¿Quieres ir por un café?"],
+  ["Say you need to check something first.", "Necesito revisar algo primero."],
+  ["Say that word sounds new to you.", "Esa palabra me suena nueva."],
+  ["Say you are trying to speak without translating.", "Estoy tratando de hablar sin traducir."],
+  ["Say the plan sounds good to you.", "Ese plan me suena bien."]
+].map(([prompt, target]) => ({ prompt, target }));
+
+const puzzles = [
+  { en: "I want to speak with more confidence.", es: ["Quiero", "hablar", "con", "más", "confianza"] },
+  { en: "Can you explain it another way?", es: ["¿Puedes", "explicarlo", "de", "otra", "manera?"] },
+  { en: "I am going to listen while I drive.", es: ["Voy", "a", "escuchar", "mientras", "manejo"] },
+  { en: "That sounds good to me.", es: ["Eso", "me", "suena", "bien"] },
+  { en: "I need to run a quick errand.", es: ["Necesito", "hacer", "una", "vuelta", "rápida"] },
+  { en: "I understood the main idea.", es: ["Entendí", "la", "idea", "principal"] },
+  { en: "Let me check before answering.", es: ["Déjame", "revisar", "antes", "de", "responder"] },
+  { en: "We can try again tomorrow.", es: ["Podemos", "intentarlo", "otra", "vez", "mañana"] }
+];
+
+const replyGames = [
   {
-    prompt: "Tell a friend you are learning Spanish because you want to use it every day.",
-    target: "Estoy aprendiendo español porque quiero usarlo todos los días."
+    prompt: "Your friend texts: ¿Vamos por un café?",
+    answer: "De una.",
+    options: ["De una.", "Estoy llevado.", "Qué pena."],
+    note: "De una is a natural casual yes."
   },
   {
-    prompt: "Ask someone if they can repeat it more slowly.",
-    target: "¿Puedes repetirlo más despacio?"
+    prompt: "Someone speaks too fast. What do you say?",
+    answer: "¿Puedes repetirlo más despacio?",
+    options: ["¿Puedes repetirlo más despacio?", "Estoy buscando mis llaves.", "Qué chimba."],
+    note: "Ask for the speed you need."
   },
   {
-    prompt: "Say that you understood the main idea, but not every word.",
-    target: "Entendí la idea principal, pero no todas las palabras."
+    prompt: "You need a moment before answering.",
+    answer: "Déjame revisar primero.",
+    options: ["Déjame revisar primero.", "Regálame un tinto.", "Un parche."],
+    note: "This buys time politely."
   },
   {
-    prompt: "Say that you are going to practice for ten minutes.",
-    target: "Voy a practicar durante diez minutos."
+    prompt: "You want to reassure someone.",
+    answer: "Fresco, no pasa nada.",
+    options: ["Fresco, no pasa nada.", "Qué vaina.", "Estoy bravo."],
+    note: "Fresco can mean relaxed / no worries."
   }
 ];
 
-const puzzles = [
-  {
-    en: "I want to speak with more confidence.",
-    es: ["Quiero", "hablar", "con", "más", "confianza"]
-  },
-  {
-    en: "Can you explain it another way?",
-    es: ["¿Puedes", "explicarlo", "de", "otra", "manera?"]
-  },
-  {
-    en: "I am going to listen while I drive.",
-    es: ["Voy", "a", "escuchar", "mientras", "manejo"]
-  },
-  {
-    en: "That sounds good to me.",
-    es: ["Eso", "me", "suena", "bien"]
-  }
+const toneGames = [
+  { prompt: "¿Me podrías ayudar con esto?", answer: "formal", options: ["formal", "casual", "careful"], note: "Polite and broadly safe." },
+  { prompt: "Parce, de una.", answer: "casual", options: ["formal", "casual", "careful"], note: "Friendly Colombian casual." },
+  { prompt: "Qué chimba.", answer: "careful", options: ["formal", "casual", "careful"], note: "Common, but can be vulgar depending on setting." },
+  { prompt: "Regálame un tinto, por favor.", answer: "casual", options: ["formal", "casual", "careful"], note: "Common Colombian service phrasing." },
+  { prompt: "Vieja, ¿qué más?", answer: "careful", options: ["formal", "casual", "careful"], note: "Can be friendly or rude depending on relationship." },
+  { prompt: "Aparte de eso, todo está bien.", answer: "formal", options: ["formal", "casual", "careful"], note: "Neutral and safe." }
+];
+
+const speedGames = [
+  { prompt: "Flash meaning: todavía no", answer: "not yet", options: ["not yet", "right away", "too far"], note: "Fast recall phrase." },
+  { prompt: "Flash meaning: de una", answer: "right away / I'm in", options: ["right away / I'm in", "I forgot", "how much"], note: "Very common in Colombia." },
+  { prompt: "Flash meaning: me di cuenta", answer: "I realized", options: ["I realized", "I am driving", "I am angry"], note: "High-frequency structure." },
+  { prompt: "Flash meaning: una vuelta", answer: "an errand", options: ["an errand", "a coffee", "a friend"], note: "Colombian daily-life word." },
+  { prompt: "Flash meaning: qué pena", answer: "sorry / excuse me", options: ["sorry / excuse me", "how cool", "cash"], note: "Context changes the English." }
 ];
 
 const missions = [
-  {
-    id: "m1",
-    title: "Name the room",
-    text: "Point to ten objects near you and say each name in Spanish. Guess first, check later."
-  },
-  {
-    id: "m2",
-    title: "One real sentence",
-    text: "Narrate one thing you are doing: Estoy preparando..., necesito..., voy a..."
-  },
-  {
-    id: "m3",
-    title: "Input burst",
-    text: "Listen to Spanish audio for five minutes. Your only job is catching familiar words."
-  },
-  {
-    id: "m4",
-    title: "No-English retry",
-    text: "When you forget a word, describe around it in Spanish instead of switching immediately."
-  },
-  {
-    id: "m5",
-    title: "Slang radar",
-    text: "Notice one casual phrase in a song, video, or conversation. Save it only after you understand the tone."
-  }
+  ["m1", "Name the room", "Point to ten objects near you and say each name in Spanish. Guess first, check later."],
+  ["m2", "One real sentence", "Narrate one thing you are doing: Estoy preparando..., necesito..., voy a..."],
+  ["m3", "Input burst", "Listen to Spanish audio for five minutes. Your only job is catching familiar words."],
+  ["m4", "No-English retry", "When you forget a word, describe around it in Spanish instead of switching immediately."],
+  ["m5", "Slang radar", "Notice one casual phrase in a song, video, or conversation. Save it only after you understand the tone."],
+  ["m6", "Coffee order", "Say a full coffee order out loud, including por favor and gracias."],
+  ["m7", "Text yourself", "Write one short Spanish text you could actually send someone."],
+  ["m8", "Three connectors", "Use aunque, entonces, and aparte de eso in three quick sentences."]
+].map(([id, title, text]) => ({ id, title, text }));
+
+const levels = [
+  { name: "Survival", min: 0 },
+  { name: "Daily Life", min: 120 },
+  { name: "Colombian Flow", min: 300 },
+  { name: "Conversation Mode", min: 650 },
+  { name: "Living In It", min: 1100 }
+];
+
+const dailySteps = [
+  { key: "review", label: "Review", tab: "review" },
+  { key: "listen", label: "Listen", tab: "listen" },
+  { key: "speak", label: "Speak", tab: "speak" },
+  { key: "play", label: "Play", tab: "play" },
+  { key: "live", label: "Live", tab: "live" }
 ];
 
 const defaultState = {
@@ -278,7 +204,13 @@ const defaultState = {
   streak: 0,
   lastPractice: "",
   completedMissions: {},
-  journal: []
+  journal: [],
+  totalXp: 0,
+  todayXp: 0,
+  xpDate: "",
+  savedCards: [],
+  hardCards: [],
+  session: { active: false, step: 0, completed: [] }
 };
 
 let state = loadState();
@@ -286,16 +218,26 @@ let currentCard = null;
 let currentScene = 0;
 let currentSpeak = 0;
 let currentPuzzle = 0;
+let selectedChoice = "";
 let builtWords = [];
 let availableWords = [];
 let deferredPrompt = null;
+let toastTimer = null;
 
 const els = {
   tabs: document.querySelectorAll(".tab"),
   views: document.querySelectorAll(".view"),
   streakCount: document.getElementById("streakCount"),
+  levelCount: document.getElementById("levelCount"),
   dueCount: document.getElementById("dueCount"),
-  knownCount: document.getElementById("knownCount"),
+  xpCount: document.getElementById("xpCount"),
+  levelName: document.getElementById("levelName"),
+  dailyTitle: document.getElementById("dailyTitle"),
+  dailyMessage: document.getElementById("dailyMessage"),
+  xpBar: document.getElementById("xpBar"),
+  xpGoalText: document.getElementById("xpGoalText"),
+  startDaily: document.getElementById("startDaily"),
+  pathSteps: document.getElementById("pathSteps"),
   deckFilter: document.getElementById("deckFilter"),
   cardLevel: document.getElementById("cardLevel"),
   cardDeck: document.getElementById("cardDeck"),
@@ -308,6 +250,9 @@ const els = {
   againButton: document.getElementById("againButton"),
   hardButton: document.getElementById("hardButton"),
   knownButton: document.getElementById("knownButton"),
+  saveCard: document.getElementById("saveCard"),
+  savedList: document.getElementById("savedList"),
+  clearSaved: document.getElementById("clearSaved"),
   sceneSpanish: document.getElementById("sceneSpanish"),
   sceneEnglish: document.getElementById("sceneEnglish"),
   sceneChips: document.getElementById("sceneChips"),
@@ -322,6 +267,9 @@ const els = {
   shadowDone: document.getElementById("shadowDone"),
   transcript: document.getElementById("transcript"),
   speechSupport: document.getElementById("speechSupport"),
+  playTitle: document.getElementById("playTitle"),
+  gamePromptLabel: document.getElementById("gamePromptLabel"),
+  gameMode: document.getElementById("gameMode"),
   puzzleEnglish: document.getElementById("puzzleEnglish"),
   dropZone: document.getElementById("dropZone"),
   wordBank: document.getElementById("wordBank"),
@@ -334,7 +282,8 @@ const els = {
   journalForm: document.getElementById("journalForm"),
   journalEntry: document.getElementById("journalEntry"),
   journalLog: document.getElementById("journalLog"),
-  installButton: document.getElementById("installButton")
+  installButton: document.getElementById("installButton"),
+  toast: document.getElementById("toast")
 };
 
 function todayKey() {
@@ -342,12 +291,19 @@ function todayKey() {
 }
 
 function loadState() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    return { ...defaultState, ...saved, cards: saved?.cards || {} };
-  } catch {
-    return { ...defaultState };
+  const oldState = JSON.parse(localStorage.getItem("vive-spanish-state-v1") || "null");
+  const newState = JSON.parse(localStorage.getItem(storageKey) || "null");
+  const saved = newState || oldState || {};
+  const merged = { ...defaultState, ...saved };
+  merged.cards = saved.cards || {};
+  merged.savedCards = saved.savedCards || [];
+  merged.hardCards = saved.hardCards || [];
+  merged.session = { ...defaultState.session, ...(saved.session || {}) };
+  if (merged.xpDate !== todayKey()) {
+    merged.todayXp = 0;
+    merged.xpDate = todayKey();
   }
+  return merged;
 }
 
 function saveState() {
@@ -356,12 +312,7 @@ function saveState() {
 
 function cardProgress(card) {
   if (!state.cards[card.id]) {
-    state.cards[card.id] = {
-      box: 0,
-      due: Date.now(),
-      seen: 0,
-      correct: 0
-    };
+    state.cards[card.id] = { box: 0, due: Date.now(), seen: 0, correct: 0 };
   }
   return state.cards[card.id];
 }
@@ -375,25 +326,97 @@ function dueCards() {
     .sort((a, b) => cardProgress(a).due - cardProgress(b).due);
 }
 
+function levelInfo() {
+  let index = 0;
+  levels.forEach((level, i) => {
+    if (state.totalXp >= level.min) index = i;
+  });
+  return { index, number: index + 1, ...levels[index], next: levels[index + 1] };
+}
+
+function awardXp(amount, reason) {
+  state.todayXp += amount;
+  state.totalXp += amount;
+  updateStreak();
+  saveState();
+  updateStats();
+  showToast(`+${amount} XP · ${reason}`);
+}
+
 function updateStreak() {
   const today = todayKey();
-  if (state.lastPractice === today) {
-    return;
-  }
-
+  if (state.lastPractice === today) return;
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   const yesterdayKey = yesterday.toISOString().slice(0, 10);
   state.streak = state.lastPractice === yesterdayKey ? state.streak + 1 : 1;
   state.lastPractice = today;
-  saveState();
 }
 
 function updateStats() {
+  const info = levelInfo();
+  const goal = 40;
   const known = cards.filter((card) => cardProgress(card).box >= 4).length;
   els.streakCount.textContent = state.streak;
+  els.levelCount.textContent = info.number;
   els.dueCount.textContent = dueCards().length;
-  els.knownCount.textContent = known;
+  els.xpCount.textContent = state.todayXp;
+  els.levelName.textContent = `Level ${info.number}: ${info.name}`;
+  els.xpBar.style.width = `${Math.min(100, Math.round((state.todayXp / goal) * 100))}%`;
+  els.xpGoalText.textContent = `${state.todayXp} / ${goal} XP · ${known} known`;
+
+  const remaining = Math.max(0, goal - state.todayXp);
+  els.dailyMessage.textContent = remaining
+    ? `${remaining} XP left for today's goal. Small reps count.`
+    : "Daily goal hit. Anything extra is bonus Spanish.";
+  renderPathSteps();
+  renderSaved();
+}
+
+function switchView(viewId) {
+  els.tabs.forEach((button) => button.classList.toggle("is-active", button.dataset.view === viewId));
+  els.views.forEach((view) => view.classList.toggle("is-active", view.id === viewId));
+}
+
+function startDailySession() {
+  state.session = { active: true, step: 0, completed: [] };
+  saveState();
+  switchView(dailySteps[0].tab);
+  renderPathSteps();
+  showToast("Daily path started: review first.");
+}
+
+function completeStep(key) {
+  if (!state.session.active) return;
+  if (!state.session.completed.includes(key)) {
+    state.session.completed.push(key);
+  }
+  if (state.session.completed.length >= dailySteps.length) {
+    state.session.active = false;
+    awardXp(10, "daily path complete");
+    showToast("Path complete. You lived in Spanish today.");
+  } else {
+    const nextIndex = dailySteps.findIndex((step) => !state.session.completed.includes(step.key));
+    state.session.step = Math.max(0, nextIndex);
+    const next = dailySteps[state.session.step];
+    saveState();
+    switchView(next.tab);
+    showToast(`Next: ${next.label}`);
+  }
+  saveState();
+  renderPathSteps();
+}
+
+function renderPathSteps() {
+  els.pathSteps.innerHTML = "";
+  dailySteps.forEach((step, index) => {
+    const div = document.createElement("div");
+    div.className = "path-step";
+    if (state.session.completed.includes(step.key)) div.classList.add("is-done");
+    if (state.session.active && state.session.step === index) div.classList.add("is-active");
+    div.textContent = step.label;
+    els.pathSteps.appendChild(div);
+  });
 }
 
 function nextCard() {
@@ -430,30 +453,55 @@ function setGradeButtons(enabled) {
 
 function gradeCard(quality) {
   const progress = cardProgress(currentCard);
-  const intervals = {
-    again: 0,
-    hard: 1,
-    known: 3
-  };
+  const intervals = { again: 0, hard: 1, known: 3 };
   progress.seen += 1;
   if (quality === "again") {
     progress.box = Math.max(0, progress.box - 1);
+    saveHardCard(currentCard);
+    awardXp(2, "honest miss");
   } else {
     progress.correct += 1;
     progress.box = Math.min(5, progress.box + intervals[quality]);
+    awardXp(quality === "known" ? 6 : 4, quality === "known" ? "card mastered" : "hard card reviewed");
   }
-
   const delayDays = [0, 0.04, 0.5, 1, 3, 7][progress.box] || 10;
   progress.due = Date.now() + delayDays * 24 * 60 * 60 * 1000;
-  updateStreak();
+  completeStep("review");
   saveState();
   nextCard();
 }
 
-function speak(text, rate = Number(els.rateSlider?.value || 0.82)) {
-  if (!("speechSynthesis" in window)) {
-    return;
+function saveHardCard(card) {
+  if (!state.hardCards.includes(card.id)) state.hardCards.push(card.id);
+}
+
+function saveCurrentCard() {
+  if (!currentCard) return;
+  if (!state.savedCards.includes(currentCard.id)) {
+    state.savedCards.push(currentCard.id);
+    awardXp(1, "phrase saved");
+  } else {
+    showToast("Already saved.");
   }
+  saveState();
+  renderSaved();
+}
+
+function renderSaved() {
+  els.savedList.innerHTML = "";
+  const ids = [...new Set([...state.savedCards, ...state.hardCards])].slice(-12).reverse();
+  ids.forEach((id) => {
+    const card = cards.find((item) => item.id === id);
+    if (!card) return;
+    const div = document.createElement("div");
+    div.className = "saved-item";
+    div.innerHTML = `<strong>${card.answer}</strong><small>${card.prompt}</small><small>${card.note}</small>`;
+    els.savedList.appendChild(div);
+  });
+}
+
+function speak(text, rate = Number(els.rateSlider?.value || 0.82)) {
+  if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   const voices = window.speechSynthesis.getVoices();
@@ -489,12 +537,8 @@ function renderSpeak() {
 
 function speechHint() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!Recognition) {
-    return "Recording is not available in this browser, but shadowing still counts.";
-  }
-  if (!window.isSecureContext) {
-    return "Recording usually needs HTTPS or localhost. If this is open from your phone by IP address, use the Hear and I said it buttons instead.";
-  }
+  if (!Recognition) return "Recording is not available in this browser, but shadowing still counts.";
+  if (!window.isSecureContext) return "Recording usually needs HTTPS or localhost. If this is open from your phone by IP address, use Hear and I said it instead.";
   return "Recording works only after the browser allows microphone access.";
 }
 
@@ -503,13 +547,46 @@ function shuffled(items) {
 }
 
 function renderPuzzle() {
+  selectedChoice = "";
   builtWords = [];
-  const puzzle = puzzles[currentPuzzle];
-  availableWords = shuffled(puzzle.es);
-  els.puzzleEnglish.textContent = puzzle.en;
   els.puzzleFeedback.textContent = "";
+  const mode = els.gameMode.value;
+  els.dropZone.innerHTML = "";
+  els.wordBank.innerHTML = "";
+
+  if (mode === "build") renderBuildGame();
+  if (mode === "reply") renderChoiceGame(replyGames[currentPuzzle % replyGames.length], "Choose the natural reply");
+  if (mode === "tone") renderChoiceGame(toneGames[currentPuzzle % toneGames.length], "Slang, formal, or careful?");
+  if (mode === "speed") renderChoiceGame(speedGames[currentPuzzle % speedGames.length], "Fast recall");
+}
+
+function renderBuildGame() {
+  const puzzle = puzzles[currentPuzzle % puzzles.length];
+  availableWords = shuffled(puzzle.es);
+  els.playTitle.textContent = "Put it together";
+  els.gamePromptLabel.textContent = "Build the Spanish sentence";
+  els.puzzleEnglish.textContent = puzzle.en;
   renderBuiltWords();
   renderWordBank();
+}
+
+function renderChoiceGame(game, label) {
+  els.playTitle.textContent = label;
+  els.gamePromptLabel.textContent = label;
+  els.puzzleEnglish.textContent = game.prompt;
+  game.options.forEach((option) => {
+    const button = document.createElement("button");
+    button.className = "word-chip";
+    button.type = "button";
+    button.textContent = option;
+    button.addEventListener("click", () => {
+      selectedChoice = option;
+      [...els.wordBank.children].forEach((child) => child.classList.remove("is-selected"));
+      button.classList.add("is-selected");
+      els.dropZone.textContent = option;
+    });
+    els.wordBank.appendChild(button);
+  });
 }
 
 function renderWordBank() {
@@ -546,6 +623,32 @@ function renderBuiltWords() {
   });
 }
 
+function checkPuzzle() {
+  const mode = els.gameMode.value;
+  let correct = false;
+  let target = "";
+  let note = "";
+  if (mode === "build") {
+    target = puzzles[currentPuzzle % puzzles.length].es.join(" ");
+    correct = builtWords.join(" ") === target;
+  } else {
+    const source = mode === "reply" ? replyGames : mode === "tone" ? toneGames : speedGames;
+    const game = source[currentPuzzle % source.length];
+    target = game.answer;
+    note = game.note;
+    correct = selectedChoice === target;
+  }
+
+  if (correct) {
+    els.puzzleFeedback.textContent = note || "Correct. Say it out loud once before moving on.";
+    speak(target);
+    awardXp(mode === "speed" ? 5 : 7, "game win");
+    completeStep("play");
+  } else {
+    els.puzzleFeedback.textContent = `Close. Target: ${target}`;
+  }
+}
+
 function renderMissions() {
   els.missionList.innerHTML = "";
   const completed = state.completedMissions[todayKey()] || {};
@@ -559,7 +662,10 @@ function renderMissions() {
     label.querySelector("input").addEventListener("change", (event) => {
       state.completedMissions[todayKey()] = state.completedMissions[todayKey()] || {};
       state.completedMissions[todayKey()][mission.id] = event.target.checked;
-      updateStreak();
+      if (event.target.checked) {
+        awardXp(8, "mission complete");
+        completeStep("live");
+      }
       saveState();
       updateStats();
     });
@@ -595,9 +701,8 @@ function startRecognition() {
   recognition.onresult = (event) => {
     els.transcript.textContent = event.results[0][0].transcript;
     els.speechSupport.textContent = "Nice. Compare that transcript with the target, then try it once more naturally.";
-    updateStreak();
-    saveState();
-    updateStats();
+    awardXp(8, "speaking rep");
+    completeStep("speak");
   };
   recognition.onerror = (event) => {
     const messages = {
@@ -625,6 +730,13 @@ function startRecognition() {
   }
 }
 
+function showToast(message) {
+  els.toast.textContent = message;
+  els.toast.classList.add("is-visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => els.toast.classList.remove("is-visible"), 1800);
+}
+
 function registerServiceWorker() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(() => {});
@@ -632,14 +744,10 @@ function registerServiceWorker() {
 }
 
 els.tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    els.tabs.forEach((button) => button.classList.remove("is-active"));
-    els.views.forEach((view) => view.classList.remove("is-active"));
-    tab.classList.add("is-active");
-    document.getElementById(tab.dataset.view).classList.add("is-active");
-  });
+  tab.addEventListener("click", () => switchView(tab.dataset.view));
 });
 
+els.startDaily.addEventListener("click", startDailySession);
 els.deckFilter.addEventListener("change", nextCard);
 els.showAnswer.addEventListener("click", () => {
   els.cardAnswer.hidden = false;
@@ -649,8 +757,20 @@ els.cardSound.addEventListener("click", () => speak(currentCard.answer));
 els.againButton.addEventListener("click", () => gradeCard("again"));
 els.hardButton.addEventListener("click", () => gradeCard("hard"));
 els.knownButton.addEventListener("click", () => gradeCard("known"));
+els.saveCard.addEventListener("click", saveCurrentCard);
+els.clearSaved.addEventListener("click", () => {
+  state.savedCards = [];
+  state.hardCards = [];
+  saveState();
+  renderSaved();
+  showToast("Personal bank cleared.");
+});
 
-els.sceneSound.addEventListener("click", () => speak(scenes[currentScene].es));
+els.sceneSound.addEventListener("click", () => {
+  speak(scenes[currentScene].es);
+  awardXp(5, "listening rep");
+  completeStep("listen");
+});
 els.newScene.addEventListener("click", () => {
   currentScene = (currentScene + 1) % scenes.length;
   renderScene();
@@ -664,29 +784,17 @@ els.hearSpeakTarget.addEventListener("click", () => speak(speakPrompts[currentSp
 els.recordButton.addEventListener("click", startRecognition);
 els.shadowDone.addEventListener("click", () => {
   els.transcript.textContent = "Marked done. Say it once more without looking if you can.";
-  updateStreak();
-  saveState();
-  updateStats();
+  awardXp(8, "shadow speaking");
+  completeStep("speak");
 });
 
+els.gameMode.addEventListener("change", renderPuzzle);
 els.newPuzzle.addEventListener("click", () => {
-  currentPuzzle = (currentPuzzle + 1) % puzzles.length;
+  currentPuzzle += 1;
   renderPuzzle();
 });
 els.clearPuzzle.addEventListener("click", renderPuzzle);
-els.checkPuzzle.addEventListener("click", () => {
-  const target = puzzles[currentPuzzle].es.join(" ");
-  const attempt = builtWords.join(" ");
-  if (attempt === target) {
-    els.puzzleFeedback.textContent = "Correct. Say it out loud once before moving on.";
-    speak(target);
-    updateStreak();
-    saveState();
-    updateStats();
-  } else {
-    els.puzzleFeedback.textContent = `Close. Target: ${target}`;
-  }
-});
+els.checkPuzzle.addEventListener("click", checkPuzzle);
 
 els.resetDay.addEventListener("click", () => {
   state.completedMissions[todayKey()] = {};
@@ -700,7 +808,8 @@ els.journalForm.addEventListener("submit", (event) => {
   if (!text) return;
   state.journal.push({ date: todayKey(), text });
   els.journalEntry.value = "";
-  updateStreak();
+  awardXp(6, "Spanish sentence");
+  completeStep("live");
   saveState();
   renderJournal();
   updateStats();

@@ -131,7 +131,7 @@ h3 {
   right: 18px;
   bottom: 18px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
@@ -157,6 +157,82 @@ small {
 
 main {
   padding: 14px 14px 34px;
+}
+
+.daily-path {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.daily-copy h2,
+.daily-copy p {
+  margin-bottom: 0;
+}
+
+.daily-copy p:last-child {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.xp-track {
+  display: grid;
+  gap: 5px;
+}
+
+.xp-bar {
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8f1ed;
+}
+
+.xp-bar span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--green), var(--yellow));
+  transition: width 180ms ease;
+}
+
+.wide {
+  min-height: 48px;
+  border-radius: 8px;
+  font-weight: 950;
+}
+
+.path-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.path-step {
+  min-height: 42px;
+  border-radius: 8px;
+  padding: 6px 4px;
+  background: #f1f6f3;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.path-step.is-active {
+  background: var(--yellow);
+  color: #3a2a05;
+}
+
+.path-step.is-done {
+  background: var(--green);
+  color: #fff;
 }
 
 .tabs {
@@ -201,6 +277,16 @@ main {
   margin: 8px 0 14px;
 }
 
+.compact-head {
+  margin: 0 0 10px;
+}
+
+.mode-tools {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 select,
 textarea {
   border: 1px solid var(--line);
@@ -220,12 +306,18 @@ select {
 .scene,
 .speak-panel,
 .game-panel,
+.word-bank-panel,
 .journal,
 .journal-log {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
   box-shadow: var(--shadow);
+}
+
+.word-bank-panel {
+  margin-top: 14px;
+  padding: 14px;
 }
 
 .flashcard {
@@ -398,6 +490,38 @@ input[type="range"] {
   box-shadow: 0 2px 0 rgba(20, 48, 52, 0.08);
 }
 
+.word-chip.is-selected {
+  background: var(--yellow);
+  color: #3a2a05;
+}
+
+.saved-list {
+  display: grid;
+  gap: 8px;
+}
+
+.saved-list:empty::before {
+  content: "Save useful phrases here. Hard cards also land in this practice pile.";
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.saved-item {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f7fbf8;
+}
+
+.saved-item strong {
+  color: var(--teal-dark);
+}
+
+.saved-item small {
+  color: var(--muted);
+}
+
 .mission-list {
   display: grid;
   gap: 10px;
@@ -472,6 +596,30 @@ textarea {
   border-bottom: 0;
 }
 
+.toast {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: 18px;
+  width: min(92vw, 440px);
+  min-height: 46px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--teal-dark);
+  color: #fff;
+  box-shadow: 0 16px 34px rgba(20, 48, 52, 0.28);
+  font-weight: 850;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 16px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 @media (min-width: 760px) {
   body {
     padding: 24px 0;
@@ -487,6 +635,22 @@ textarea {
 @media (max-width: 380px) {
   .tab {
     font-size: 0.76rem;
+  }
+
+  .today-strip {
+    gap: 6px;
+  }
+
+  .today-strip div {
+    padding: 9px 7px;
+  }
+
+  .today-strip span {
+    font-size: 1.24rem;
+  }
+
+  .path-steps {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   h1 {

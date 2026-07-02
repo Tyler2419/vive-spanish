@@ -35,3 +35,5 @@ GitHub Pages URL:
 ```text
 https://tyler2419.github.io/vive-spanish/
 ```
+
+Published from the `gh-pages` branch.

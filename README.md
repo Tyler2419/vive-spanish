@@ -29,3 +29,9 @@ Then open the printed local URL.
 ## Publish
 
 See `DEPLOY.md`.
+
+GitHub Pages URL:
+
+```text
+https://tyler2419.github.io/vive-spanish/
+```

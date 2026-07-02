@@ -28,17 +28,35 @@
             <small>day streak</small>
           </div>
           <div>
+            <span id="levelCount">1</span>
+            <small>level</small>
+          </div>
+          <div>
             <span id="dueCount">0</span>
             <small>due cards</small>
           </div>
           <div>
-            <span id="knownCount">0</span>
-            <small>known</small>
+            <span id="xpCount">0</span>
+            <small>XP today</small>
           </div>
         </section>
       </header>
 
       <main>
+        <section class="daily-path" aria-label="Daily practice path">
+          <div class="daily-copy">
+            <p class="section-kicker" id="levelName">Survival</p>
+            <h2 id="dailyTitle">Today's 7-minute session</h2>
+            <p id="dailyMessage">A tiny win keeps Spanish warm in your head.</p>
+          </div>
+          <div class="xp-track" aria-label="Daily XP progress">
+            <div class="xp-bar"><span id="xpBar"></span></div>
+            <small id="xpGoalText">0 / 40 XP</small>
+          </div>
+          <button class="primary wide" id="startDaily" type="button">Start today's path</button>
+          <div class="path-steps" id="pathSteps" aria-label="Daily path steps"></div>
+        </section>
+
         <nav class="tabs" aria-label="Practice modes">
           <button class="tab is-active" type="button" data-view="review">Review</button>
           <button class="tab" type="button" data-view="listen">Listen</button>
@@ -82,7 +100,18 @@
             <button class="danger" id="againButton" type="button" disabled>Again</button>
             <button class="secondary" id="hardButton" type="button" disabled>Hard</button>
             <button class="primary" id="knownButton" type="button" disabled>Got it</button>
+            <button class="secondary" id="saveCard" type="button">Save</button>
           </div>
+          <section class="word-bank-panel" aria-label="Personal word bank">
+            <div class="section-head compact-head">
+              <div>
+                <p class="section-kicker">Personal bank</p>
+                <h2>Saved phrases</h2>
+              </div>
+              <button class="secondary compact" id="clearSaved" type="button">Clear</button>
+            </div>
+            <div class="saved-list" id="savedList"></div>
+          </section>
         </section>
 
         <section class="view" id="listen" aria-labelledby="listenTitle">
@@ -137,10 +166,18 @@
               <p class="section-kicker">Phrase builder</p>
               <h2 id="playTitle">Put it together</h2>
             </div>
-            <button class="primary compact" id="newPuzzle" type="button">New</button>
+            <div class="mode-tools">
+              <select id="gameMode" aria-label="Game mode">
+                <option value="build">Build</option>
+                <option value="reply">Reply</option>
+                <option value="tone">Slang or formal</option>
+                <option value="speed">Fast recall</option>
+              </select>
+              <button class="primary compact" id="newPuzzle" type="button">New</button>
+            </div>
           </div>
           <article class="game-panel">
-            <p class="prompt-label">Build the Spanish sentence</p>
+            <p class="prompt-label" id="gamePromptLabel">Build the Spanish sentence</p>
             <h3 id="puzzleEnglish"></h3>
             <div class="drop-zone" id="dropZone" aria-label="Built sentence"></div>
             <div class="word-bank" id="wordBank" aria-label="Word bank"></div>
@@ -169,6 +206,7 @@
           <div class="journal-log" id="journalLog"></div>
         </section>
       </main>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </div>
 
     <script src="app.js"></script>

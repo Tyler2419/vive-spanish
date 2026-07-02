@@ -186,6 +186,18 @@ main {
   gap: 5px;
 }
 
+.pack-picker {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.pack-picker select {
+  max-width: 100%;
+}
+
 .xp-bar {
   height: 12px;
   overflow: hidden;
@@ -318,6 +330,76 @@ select {
 .word-bank-panel {
   margin-top: 14px;
   padding: 14px;
+}
+
+.insight-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.insight-panel h2 {
+  margin-bottom: 6px;
+}
+
+.insight-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+.unlock-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.unlock-badge {
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: #eef5f1;
+  color: var(--teal-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.unlock-badge.is-locked {
+  background: #f0ece2;
+  color: var(--muted);
+}
+
+.backup-tools {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.tone-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #eef5f1;
+  color: var(--teal-dark);
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.tone-badge.careful {
+  background: #fae2dd;
+  color: #8c2e22;
+}
+
+.tone-badge.casual {
+  background: #fff1cf;
+  color: #694908;
 }
 
 .flashcard {

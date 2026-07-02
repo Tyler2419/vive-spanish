@@ -172,6 +172,93 @@ const speedGames = [
   { prompt: "Flash meaning: qué pena", answer: "sorry / excuse me", options: ["sorry / excuse me", "how cool", "cash"], note: "Context changes the English." }
 ];
 
+const situationGames = [
+  {
+    prompt: "A friend invites you for coffee, but you are busy until later.",
+    answer: "Más tarde puedo. ¿Te aviso?",
+    options: ["Más tarde puedo. ¿Te aviso?", "Estoy buscando mis llaves.", "Qué chimba."],
+    note: "This answers the situation, not just a translation."
+  },
+  {
+    prompt: "You did not understand a fast sentence at work.",
+    answer: "¿Me lo puedes repetir más despacio?",
+    options: ["¿Me lo puedes repetir más despacio?", "De una, parce.", "Eso queda lejos."],
+    note: "Ask for repetition and speed together."
+  },
+  {
+    prompt: "Someone apologizes for being late.",
+    answer: "Fresco, no pasa nada.",
+    options: ["Fresco, no pasa nada.", "Estoy llevado.", "Regálame un tinto."],
+    note: "Very Colombian way to say no worries."
+  },
+  {
+    prompt: "You want to order coffee and be polite.",
+    answer: "Regálame un tinto, por favor.",
+    options: ["Regálame un tinto, por favor.", "Qué vaina.", "Estoy bravo."],
+    note: "Common Colombian service phrasing."
+  },
+  {
+    prompt: "A friend asks if the plan sounds good.",
+    answer: "Sí, de una. Me suena bien.",
+    options: ["Sí, de una. Me suena bien.", "No he tenido tiempo todavía.", "Aparte de eso."],
+    note: "Natural friendly acceptance."
+  }
+];
+
+const packs = {
+  core: {
+    name: "Daily core",
+    decks: ["daily", "connectors"],
+    scene: 2,
+    gameMode: "build",
+    message: "A balanced daily mix: useful phrases, listening, speaking, and a quick game."
+  },
+  cafe: {
+    name: "Coffee shop",
+    decks: ["colombia", "daily"],
+    scene: 0,
+    gameMode: "situation",
+    message: "Practice ordering, asking, and sounding natural in a Colombian cafe."
+  },
+  work: {
+    name: "Work help",
+    decks: ["work", "connectors"],
+    scene: 5,
+    gameMode: "reply",
+    message: "Useful phrases for asking, clarifying, checking, and responding."
+  },
+  errands: {
+    name: "Errands",
+    decks: ["daily", "colombia"],
+    scene: 1,
+    gameMode: "build",
+    message: "Short phrases for moving around, asking, and handling little tasks."
+  },
+  plans: {
+    name: "Making plans",
+    decks: ["daily", "slang"],
+    scene: 3,
+    gameMode: "situation",
+    message: "Casual replies for coffee, timing, yes/no, and friend texts."
+  },
+  slang: {
+    name: "Colombian slang",
+    decks: ["slang"],
+    scene: 4,
+    gameMode: "tone",
+    message: "Recognize what people say, with tone notes so you know when to be careful."
+  }
+};
+
+const unlocks = [
+  { id: "cafe", label: "Cafe pack", minXp: 0 },
+  { id: "work", label: "Work pack", minXp: 60 },
+  { id: "plans", label: "Plans pack", minXp: 120 },
+  { id: "slang", label: "Slang lab", minXp: 220 },
+  { id: "conversation", label: "Conversation mode", minXp: 360 },
+  { id: "recap", label: "Weekly coach", minXp: 0 }
+];
+
 const missions = [
   ["m1", "Name the room", "Point to ten objects near you and say each name in Spanish. Guess first, check later."],
   ["m2", "One real sentence", "Narrate one thing you are doing: Estoy preparando..., necesito..., voy a..."],
@@ -210,7 +297,10 @@ const defaultState = {
   xpDate: "",
   savedCards: [],
   hardCards: [],
-  session: { active: false, step: 0, completed: [] }
+  mistakeLog: [],
+  activityLog: [],
+  selectedPack: "core",
+  session: { active: false, step: 0, completed: [], pack: "core" }
 };
 
 let state = loadState();
@@ -234,6 +324,7 @@ const els = {
   levelName: document.getElementById("levelName"),
   dailyTitle: document.getElementById("dailyTitle"),
   dailyMessage: document.getElementById("dailyMessage"),
+  packSelect: document.getElementById("packSelect"),
   xpBar: document.getElementById("xpBar"),
   xpGoalText: document.getElementById("xpGoalText"),
   startDaily: document.getElementById("startDaily"),
@@ -251,6 +342,11 @@ const els = {
   hardButton: document.getElementById("hardButton"),
   knownButton: document.getElementById("knownButton"),
   saveCard: document.getElementById("saveCard"),
+  weeklyRecap: document.getElementById("weeklyRecap"),
+  unlockList: document.getElementById("unlockList"),
+  exportProgress: document.getElementById("exportProgress"),
+  importProgress: document.getElementById("importProgress"),
+  importFile: document.getElementById("importFile"),
   savedList: document.getElementById("savedList"),
   clearSaved: document.getElementById("clearSaved"),
   sceneSpanish: document.getElementById("sceneSpanish"),
@@ -298,6 +394,9 @@ function loadState() {
   merged.cards = saved.cards || {};
   merged.savedCards = saved.savedCards || [];
   merged.hardCards = saved.hardCards || [];
+  merged.mistakeLog = saved.mistakeLog || [];
+  merged.activityLog = saved.activityLog || [];
+  merged.selectedPack = saved.selectedPack || "core";
   merged.session = { ...defaultState.session, ...(saved.session || {}) };
   if (merged.xpDate !== todayKey()) {
     merged.todayXp = 0;
@@ -319,9 +418,11 @@ function cardProgress(card) {
 
 function dueCards() {
   const deck = els.deckFilter.value;
+  const pack = packs[state.selectedPack] || packs.core;
   const now = Date.now();
   return cards
     .filter((card) => deck === "all" || card.deck === deck)
+    .filter((card) => deck !== "all" || pack.decks.includes(card.deck))
     .filter((card) => cardProgress(card).due <= now)
     .sort((a, b) => cardProgress(a).due - cardProgress(b).due);
 }
@@ -337,10 +438,21 @@ function levelInfo() {
 function awardXp(amount, reason) {
   state.todayXp += amount;
   state.totalXp += amount;
+  logActivity(reason, amount);
   updateStreak();
   saveState();
   updateStats();
   showToast(`+${amount} XP · ${reason}`);
+}
+
+function logActivity(reason, xp) {
+  state.activityLog.push({
+    date: todayKey(),
+    reason,
+    xp,
+    pack: state.selectedPack
+  });
+  state.activityLog = state.activityLog.slice(-250);
 }
 
 function updateStreak() {
@@ -357,6 +469,8 @@ function updateStats() {
   const info = levelInfo();
   const goal = 40;
   const known = cards.filter((card) => cardProgress(card).box >= 4).length;
+  const pack = packs[state.selectedPack] || packs.core;
+  els.packSelect.value = state.selectedPack;
   els.streakCount.textContent = state.streak;
   els.levelCount.textContent = info.number;
   els.dueCount.textContent = dueCards().length;
@@ -367,10 +481,12 @@ function updateStats() {
 
   const remaining = Math.max(0, goal - state.todayXp);
   els.dailyMessage.textContent = remaining
-    ? `${remaining} XP left for today's goal. Small reps count.`
+    ? `${pack.message} ${remaining} XP left for today's goal.`
     : "Daily goal hit. Anything extra is bonus Spanish.";
   renderPathSteps();
   renderSaved();
+  renderWeeklyRecap();
+  renderUnlocks();
 }
 
 function switchView(viewId) {
@@ -379,11 +495,17 @@ function switchView(viewId) {
 }
 
 function startDailySession() {
-  state.session = { active: true, step: 0, completed: [] };
+  const pack = packs[state.selectedPack] || packs.core;
+  currentScene = pack.scene;
+  els.gameMode.value = pack.gameMode;
+  state.session = { active: true, step: 0, completed: [], pack: state.selectedPack };
   saveState();
+  nextCard();
+  renderScene();
+  renderPuzzle();
   switchView(dailySteps[0].tab);
   renderPathSteps();
-  showToast("Daily path started: review first.");
+  showToast(`${pack.name} started: review first.`);
 }
 
 function completeStep(key) {
@@ -429,9 +551,17 @@ function nextCard() {
   els.cardPrompt.textContent = progress.seen % 2 === 0 ? currentCard.prompt : currentCard.answer;
   els.cardAnswer.textContent = progress.seen % 2 === 0 ? currentCard.answer : currentCard.prompt;
   els.cardAnswer.hidden = true;
-  els.cardNote.textContent = currentCard.note;
+  els.cardNote.innerHTML = `${toneBadge(currentCard)} ${currentCard.note}`;
   setGradeButtons(false);
   updateStats();
+}
+
+function toneBadge(card) {
+  let tone = "safe";
+  if (card.deck === "slang") tone = card.level === "Careful" ? "careful" : "casual";
+  if (card.note.toLowerCase().includes("formal")) tone = "formal";
+  const label = tone === "careful" ? "Use carefully" : tone === "casual" ? "Casual" : tone === "formal" ? "Safe formal" : "Safe";
+  return `<span class="tone-badge ${tone}">${label}</span>`;
 }
 
 function labelDeck(deck) {
@@ -458,6 +588,7 @@ function gradeCard(quality) {
   if (quality === "again") {
     progress.box = Math.max(0, progress.box - 1);
     saveHardCard(currentCard);
+    logMistake(currentCard);
     awardXp(2, "honest miss");
   } else {
     progress.correct += 1;
@@ -473,6 +604,11 @@ function gradeCard(quality) {
 
 function saveHardCard(card) {
   if (!state.hardCards.includes(card.id)) state.hardCards.push(card.id);
+}
+
+function logMistake(card) {
+  state.mistakeLog.push({ id: card.id, date: todayKey(), deck: card.deck });
+  state.mistakeLog = state.mistakeLog.slice(-120);
 }
 
 function saveCurrentCard() {
@@ -495,8 +631,42 @@ function renderSaved() {
     if (!card) return;
     const div = document.createElement("div");
     div.className = "saved-item";
-    div.innerHTML = `<strong>${card.answer}</strong><small>${card.prompt}</small><small>${card.note}</small>`;
+    div.innerHTML = `<strong>${card.answer}</strong><small>${card.prompt}</small><small>${toneBadge(card)} ${card.note}</small>`;
     els.savedList.appendChild(div);
+  });
+}
+
+function renderWeeklyRecap() {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 6);
+  const cutoffKey = cutoff.toISOString().slice(0, 10);
+  const week = state.activityLog.filter((item) => item.date >= cutoffKey);
+  const days = new Set(week.map((item) => item.date)).size;
+  const xp = week.reduce((sum, item) => sum + Number(item.xp || 0), 0);
+  const mistakes = state.mistakeLog.filter((item) => item.date >= cutoffKey);
+  const hardest = mostCommon(mistakes.map((item) => item.id));
+  const hardCard = cards.find((card) => card.id === hardest);
+  els.weeklyRecap.textContent = week.length
+    ? `${days} active day${days === 1 ? "" : "s"}, ${xp} XP, ${mistakes.length} misses. Hardest phrase: ${hardCard ? hardCard.answer : "none yet"}.`
+    : "No weekly data yet. Finish a few reps and this turns into your coach report.";
+}
+
+function mostCommon(values) {
+  const counts = {};
+  values.forEach((value) => {
+    counts[value] = (counts[value] || 0) + 1;
+  });
+  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0];
+}
+
+function renderUnlocks() {
+  els.unlockList.innerHTML = "";
+  unlocks.forEach((unlock) => {
+    const span = document.createElement("span");
+    const unlocked = state.totalXp >= unlock.minXp;
+    span.className = `unlock-badge${unlocked ? "" : " is-locked"}`;
+    span.textContent = unlocked ? unlock.label : `${unlock.label} · ${unlock.minXp} XP`;
+    els.unlockList.appendChild(span);
   });
 }
 
@@ -556,6 +726,7 @@ function renderPuzzle() {
 
   if (mode === "build") renderBuildGame();
   if (mode === "reply") renderChoiceGame(replyGames[currentPuzzle % replyGames.length], "Choose the natural reply");
+  if (mode === "situation") renderChoiceGame(situationGames[currentPuzzle % situationGames.length], "What would you say?");
   if (mode === "tone") renderChoiceGame(toneGames[currentPuzzle % toneGames.length], "Slang, formal, or careful?");
   if (mode === "speed") renderChoiceGame(speedGames[currentPuzzle % speedGames.length], "Fast recall");
 }
@@ -632,7 +803,7 @@ function checkPuzzle() {
     target = puzzles[currentPuzzle % puzzles.length].es.join(" ");
     correct = builtWords.join(" ") === target;
   } else {
-    const source = mode === "reply" ? replyGames : mode === "tone" ? toneGames : speedGames;
+    const source = mode === "reply" ? replyGames : mode === "situation" ? situationGames : mode === "tone" ? toneGames : speedGames;
     const game = source[currentPuzzle % source.length];
     target = game.answer;
     note = game.note;
@@ -647,6 +818,69 @@ function checkPuzzle() {
   } else {
     els.puzzleFeedback.textContent = `Close. Target: ${target}`;
   }
+}
+
+function selectPack() {
+  state.selectedPack = els.packSelect.value;
+  const pack = packs[state.selectedPack] || packs.core;
+  currentScene = pack.scene;
+  els.gameMode.value = pack.gameMode;
+  state.session.active = false;
+  saveState();
+  nextCard();
+  renderScene();
+  renderPuzzle();
+  updateStats();
+  showToast(`${pack.name} loaded.`);
+}
+
+function exportProgress() {
+  const payload = {
+    app: "Vive Spanish",
+    exportedAt: new Date().toISOString(),
+    state
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `vive-spanish-progress-${todayKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast("Progress export downloaded.");
+}
+
+function importProgressFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const importedState = parsed.state || parsed;
+      state = { ...defaultState, ...importedState };
+      state.cards = importedState.cards || {};
+      state.savedCards = importedState.savedCards || [];
+      state.hardCards = importedState.hardCards || [];
+      state.mistakeLog = importedState.mistakeLog || [];
+      state.activityLog = importedState.activityLog || [];
+      state.session = { ...defaultState.session, ...(importedState.session || {}) };
+      state.selectedPack = importedState.selectedPack || "core";
+      saveState();
+      nextCard();
+      renderScene();
+      renderSpeak();
+      renderPuzzle();
+      renderMissions();
+      renderJournal();
+      updateStats();
+      showToast("Progress imported.");
+    } catch {
+      showToast("That progress file could not be imported.");
+    }
+  };
+  reader.readAsText(file);
 }
 
 function renderMissions() {
@@ -747,6 +981,7 @@ els.tabs.forEach((tab) => {
   tab.addEventListener("click", () => switchView(tab.dataset.view));
 });
 
+els.packSelect.addEventListener("change", selectPack);
 els.startDaily.addEventListener("click", startDailySession);
 els.deckFilter.addEventListener("change", nextCard);
 els.showAnswer.addEventListener("click", () => {
@@ -758,6 +993,12 @@ els.againButton.addEventListener("click", () => gradeCard("again"));
 els.hardButton.addEventListener("click", () => gradeCard("hard"));
 els.knownButton.addEventListener("click", () => gradeCard("known"));
 els.saveCard.addEventListener("click", saveCurrentCard);
+els.exportProgress.addEventListener("click", exportProgress);
+els.importProgress.addEventListener("click", () => els.importFile.click());
+els.importFile.addEventListener("change", () => {
+  importProgressFile(els.importFile.files[0]);
+  els.importFile.value = "";
+});
 els.clearSaved.addEventListener("click", () => {
   state.savedCards = [];
   state.hardCards = [];
@@ -831,6 +1072,7 @@ els.installButton.addEventListener("click", async () => {
 
 window.speechSynthesis?.addEventListener?.("voiceschanged", () => {});
 
+els.packSelect.value = state.selectedPack;
 nextCard();
 renderScene();
 renderSpeak();

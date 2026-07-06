@@ -300,14 +300,15 @@ const defaultState = {
   mistakeLog: [],
   activityLog: [],
   selectedPack: "core",
+  rotation: { scene: 0, speak: 0, puzzle: 0, lastSessionDate: "" },
   session: { active: false, step: 0, completed: [], pack: "core" }
 };
 
 let state = loadState();
 let currentCard = null;
-let currentScene = 0;
-let currentSpeak = 0;
-let currentPuzzle = 0;
+let currentScene = state.rotation.scene || 0;
+let currentSpeak = state.rotation.speak || 0;
+let currentPuzzle = state.rotation.puzzle || 0;
 let selectedChoice = "";
 let builtWords = [];
 let availableWords = [];
@@ -397,6 +398,7 @@ function loadState() {
   merged.mistakeLog = saved.mistakeLog || [];
   merged.activityLog = saved.activityLog || [];
   merged.selectedPack = saved.selectedPack || "core";
+  merged.rotation = { ...defaultState.rotation, ...(saved.rotation || {}) };
   merged.session = { ...defaultState.session, ...(saved.session || {}) };
   if (merged.xpDate !== todayKey()) {
     merged.todayXp = 0;
@@ -496,7 +498,10 @@ function switchView(viewId) {
 
 function startDailySession() {
   const pack = packs[state.selectedPack] || packs.core;
-  currentScene = pack.scene;
+  currentScene = takeRotation("scene", scenes.length, pack.scene);
+  currentSpeak = takeRotation("speak", speakPrompts.length);
+  currentPuzzle = takeRotation("puzzle", puzzles.length);
+  state.rotation.lastSessionDate = todayKey();
   els.gameMode.value = pack.gameMode;
   state.session = { active: true, step: 0, completed: [], pack: state.selectedPack };
   saveState();
@@ -506,6 +511,22 @@ function startDailySession() {
   switchView(dailySteps[0].tab);
   renderPathSteps();
   showToast(`${pack.name} started: review first.`);
+}
+
+function normalizeIndex(value, length, fallback = 0) {
+  const source = Number.isInteger(value) ? value : fallback;
+  return ((source % length) + length) % length;
+}
+
+function takeRotation(key, length, fallback = 0) {
+  const current = normalizeIndex(state.rotation[key], length, fallback);
+  state.rotation[key] = (current + 1) % length;
+  return current;
+}
+
+function storeNextRotation(key, current, length) {
+  state.rotation[key] = (normalizeIndex(current, length) + 1) % length;
+  saveState();
 }
 
 function completeStep(key) {
@@ -814,6 +835,7 @@ function checkPuzzle() {
     els.puzzleFeedback.textContent = note || "Correct. Say it out loud once before moving on.";
     speak(target);
     awardXp(mode === "speed" ? 5 : 7, "game win");
+    storeNextRotation("puzzle", currentPuzzle, puzzles.length);
     completeStep("play");
   } else {
     els.puzzleFeedback.textContent = `Close. Target: ${target}`;
@@ -824,6 +846,7 @@ function selectPack() {
   state.selectedPack = els.packSelect.value;
   const pack = packs[state.selectedPack] || packs.core;
   currentScene = pack.scene;
+  storeNextRotation("scene", currentScene, scenes.length);
   els.gameMode.value = pack.gameMode;
   state.session.active = false;
   saveState();
@@ -865,8 +888,12 @@ function importProgressFile(file) {
       state.hardCards = importedState.hardCards || [];
       state.mistakeLog = importedState.mistakeLog || [];
       state.activityLog = importedState.activityLog || [];
+      state.rotation = { ...defaultState.rotation, ...(importedState.rotation || {}) };
       state.session = { ...defaultState.session, ...(importedState.session || {}) };
       state.selectedPack = importedState.selectedPack || "core";
+      currentScene = normalizeIndex(state.rotation.scene, scenes.length);
+      currentSpeak = normalizeIndex(state.rotation.speak, speakPrompts.length);
+      currentPuzzle = normalizeIndex(state.rotation.puzzle, puzzles.length);
       saveState();
       nextCard();
       renderScene();
@@ -936,6 +963,7 @@ function startRecognition() {
     els.transcript.textContent = event.results[0][0].transcript;
     els.speechSupport.textContent = "Nice. Compare that transcript with the target, then try it once more naturally.";
     awardXp(8, "speaking rep");
+    storeNextRotation("speak", currentSpeak, speakPrompts.length);
     completeStep("speak");
   };
   recognition.onerror = (event) => {
@@ -1010,15 +1038,18 @@ els.clearSaved.addEventListener("click", () => {
 els.sceneSound.addEventListener("click", () => {
   speak(scenes[currentScene].es);
   awardXp(5, "listening rep");
+  storeNextRotation("scene", currentScene, scenes.length);
   completeStep("listen");
 });
 els.newScene.addEventListener("click", () => {
   currentScene = (currentScene + 1) % scenes.length;
+  storeNextRotation("scene", currentScene, scenes.length);
   renderScene();
 });
 
 els.newSpeak.addEventListener("click", () => {
   currentSpeak = (currentSpeak + 1) % speakPrompts.length;
+  storeNextRotation("speak", currentSpeak, speakPrompts.length);
   renderSpeak();
 });
 els.hearSpeakTarget.addEventListener("click", () => speak(speakPrompts[currentSpeak].target));
@@ -1026,12 +1057,14 @@ els.recordButton.addEventListener("click", startRecognition);
 els.shadowDone.addEventListener("click", () => {
   els.transcript.textContent = "Marked done. Say it once more without looking if you can.";
   awardXp(8, "shadow speaking");
+  storeNextRotation("speak", currentSpeak, speakPrompts.length);
   completeStep("speak");
 });
 
 els.gameMode.addEventListener("change", renderPuzzle);
 els.newPuzzle.addEventListener("click", () => {
   currentPuzzle += 1;
+  storeNextRotation("puzzle", currentPuzzle, puzzles.length);
   renderPuzzle();
 });
 els.clearPuzzle.addEventListener("click", renderPuzzle);
